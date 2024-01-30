@@ -5,11 +5,6 @@ int main(){
     const int windowWidth{512};
     const int windowHeight{380};
 
-    // rectangle dimensions
-    const int width{50};
-    const int height{80};
-
-    int posY{windowHeight-height};
     int velocity{0};
 
     // prevent air jumping
@@ -19,6 +14,16 @@ int main(){
 
     // acceleration due to gravity (pixels/frame)/frame
     const int gravity{1};
+    // loading the textures and aligning it to the middle of the screen
+    Texture2D scarfy=LoadTexture("textures/scarfy.png");
+    Rectangle scarfyRec;
+    scarfyRec.width=scarfy.width/6;
+    scarfyRec.height=scarfy.height;
+    scarfyRec.x=0;
+    scarfyRec.y=0;
+    Vector2 scarfyPos;
+    scarfyPos.x=windowWidth/2-scarfyRec.width/2;
+    scarfyPos.y=windowHeight-scarfyRec.height;
 
     SetTargetFPS(60);
     InitWindow(windowWidth,windowHeight,"Dasher");
@@ -42,14 +47,14 @@ int main(){
         }
 
         // Update position
-        posY += velocity;  // Update the vertical position based on the current velocity.
+        scarfyPos.y += velocity;  // Update the vertical position based on the current velocity.
 
         // Draw rectangle at the updated position
-        DrawRectangle(windowWidth/2, posY, width, height, BLUE);
+        DrawTextureRec(scarfy,scarfyRec,scarfyPos,WHITE);
 
         // Check for collision with the ground
-        if(posY >= windowHeight - height){
-            posY = windowHeight - height;  // Snap the object to the ground.
+        if(scarfyPos.y >= windowHeight - scarfyRec.height){
+            scarfyPos.y = windowHeight - scarfyRec.height;  // Snap the object to the ground.
             velocity = 0;  // Set the velocity to 0 when on the ground.
             isInAir = false;  // Mark the object as not in the air.
         }
@@ -57,5 +62,6 @@ int main(){
 
         EndDrawing();
     }
+    UnloadTexture(scarfy);
     CloseWindow();
 }
