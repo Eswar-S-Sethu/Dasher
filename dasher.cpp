@@ -14,8 +14,12 @@ int main(){
 
     // acceleration due to gravity (pixels/frame)/frame
     const int gravity{1};
+
+    SetTargetFPS(60); // this line and the next line goes first before loading any textures. only exception is variables
+    InitWindow(windowWidth,windowHeight,"Dasher");
+
     // loading the textures and aligning it to the middle of the screen
-    Texture2D scarfy=LoadTexture("textures/scarfy.png");
+    Texture2D scarfy=LoadTexture("C:/Users/GameDev/Documents/Dasher/textures/scarfy.png");
     Rectangle scarfyRec;
     scarfyRec.width=scarfy.width/6;
     scarfyRec.height=scarfy.height;
@@ -25,9 +29,6 @@ int main(){
     scarfyPos.x=windowWidth/2-scarfyRec.width/2;
     scarfyPos.y=windowHeight-scarfyRec.height;
 
-    SetTargetFPS(60);
-    InitWindow(windowWidth,windowHeight,"Dasher");
-    std::cout<<isInAir<<"\n";
     while(true){
         if(WindowShouldClose()){
             return false;
