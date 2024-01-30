@@ -10,10 +10,10 @@ int main(){
     // prevent air jumping
     bool isInAir{};
     // jump velocity
-    const int jumpVel{-20};
+    const int jumpVel{-700};
 
     // acceleration due to gravity (pixels/frame)/frame
-    const int gravity{1};
+    const int gravity{1500};
 
     SetTargetFPS(60); // this line and the next line goes first before loading any textures. only exception is variables
     InitWindow(windowWidth,windowHeight,"Dasher");
@@ -33,22 +33,24 @@ int main(){
         if(WindowShouldClose()){
             return false;
         }
+        // delta time  ( time since the last frame )
+        const float dT{GetFrameTime()};
+
         BeginDrawing();
         ClearBackground(WHITE);
 
         // Check for jumping
         if(IsKeyPressed(KEY_SPACE) && !isInAir){
             isInAir = true;  // Mark the object as in the air.
-            std::cout<<isInAir<<"\n";
             velocity+=jumpVel;  // Set a negative velocity to move upward when the space key is pressed.
         }
         else{
             // Apply gravity
-            velocity += gravity;  // Apply gravity to the velocity.
+            velocity += gravity*dT;  // Apply gravity to the velocity.
         }
 
         // Update position
-        scarfyPos.y += velocity;  // Update the vertical position based on the current velocity.
+        scarfyPos.y += velocity*dT;  // Update the vertical position based on the current velocity.
 
         // Draw rectangle at the updated position
         DrawTextureRec(scarfy,scarfyRec,scarfyPos,WHITE);
